@@ -10,11 +10,24 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
     
-    var itemArray = ["Find Mikel", "Buy eggs", "Destroy Demogorgon"]
+    var itemArray = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        retrieveItemData()
+    }
+    
+    //MARK - Retrieve and update data of UserDefaults methods
+    
+    func retrieveItemData() {
+        if let items = UserDefaults.standard.stringArray(forKey: "TodoListArray") {
+            itemArray = items
+        }
+    }
+    
+    func updateItemData() {
+        UserDefaults.standard.set(itemArray, forKey: "TodoListArray")
     }
     
     //MARK - TableView Datasource Methods
@@ -56,6 +69,7 @@ class TodoListViewController: UITableViewController {
                 unwrappedTextField = textField.text! == "" ? unwrappedTextField : textField.text!
             }
             self.itemArray.append(unwrappedTextField)
+            self.updateItemData()
             self.tableView.reloadData()
         }
         //addAction.isEnabled = false
