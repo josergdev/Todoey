@@ -36,6 +36,39 @@ class TodoListViewController: UITableViewController {
         tableView.cellForRow(at: indexPath)?.accessoryType = tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark ? .none : .checkmark
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    //MARK - Add New Items
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        let alert = UIAlertController(title: "Add New Todowy Item", message: nil, preferredStyle: .alert)
+        
+        var textField = UITextField()
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "New item"
+            textField = alertTextField
+        }
+        
+        let addAction = UIAlertAction(title: "Add Item", style: .default
+        ) { (action) in
+            //what will happen  once the user clicks the Add Item button on our UIAlert
+            var unwrappedTextField = "New item"
+            if textField.text != nil {
+                unwrappedTextField = textField.text! == "" ? unwrappedTextField : textField.text!
+            }
+            self.itemArray.append(unwrappedTextField)
+            self.tableView.reloadData()
+        }
+        //addAction.isEnabled = false
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            print("Add item cancelled")
+        }
 
+        alert.addAction(addAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
 }
 
